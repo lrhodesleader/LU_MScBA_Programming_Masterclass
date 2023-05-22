@@ -54,8 +54,7 @@ def CTMC(horizon, initial_state, generator, dt = 0.01):
         t += dt
         
         # store new state in trace
-        for i in range(n):
-            trace[i].append(initial_state[0,0])
+        store_probs(trace, initial_state)
      
     trace = pd.DataFrame(trace)
     
@@ -63,6 +62,25 @@ def CTMC(horizon, initial_state, generator, dt = 0.01):
     trace['Time'] = [dt*i for i in range(len(trace[0]))]
 
     return(trace)
+
+def store_probs(store, current_probabilities):
+    """
+    A function to store the current state probabilities.
+
+    Parameters
+    ----------
+    store : dictionary
+        Where we wan to store the values.
+    current_probabilities : numpy.matrix
+        The probabilities of being in each state.
+
+    """
+    # number of states 
+    n = current_probabilities.shape[1]
+
+    # store new state in trace
+    for i in range(n):
+        store[i].append(current_probabilities[0,0])
 
 # try it out
 Q = np.matrix([[-3,1.5,1.5],
